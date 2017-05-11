@@ -6,14 +6,30 @@
 /*   By: dgerard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 18:13:47 by dgerard           #+#    #+#             */
-/*   Updated: 2017/05/10 19:45:59 by dgerard          ###   ########.fr       */
+/*   Updated: 2017/05/11 14:49:57 by dgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "get_next_line.h"
 
-/**/
+void					increment_overflow(char **overflow)
+{
+	int i;
+	char *tmp;
+
+	i = 0;
+	tmp = (*overflow);
+	while (*tmp != '\n')
+		tmp++;
+	if (*tmp == '\n')
+		tmp++;
+	while (*tmp != '\0')
+		(*overflow)[i++] = *tmp++;
+	while ((*overflow)[i] != '\0')
+		(*overflow)[i++] = '\0';
+}
+
 void					parse_data(char **overflow, char ***line)
 {
 	int i;
@@ -29,7 +45,6 @@ void					parse_data(char **overflow, char ***line)
 	}
 	(**line)[j] = 0;
 }
-/**/
 
 int						get_next_line(const int fd, char **line)
 {
@@ -39,8 +54,8 @@ int						get_next_line(const int fd, char **line)
 
 	if (fd < 0 || BUFF_SIZE < 1)
 		return (-1);
-	overflow = ft_memalloc(BUFF_SIZE + 1);
-	overflow[0] = 0;
+	if (!(overflow))
+		overflow =  ft_memalloc(BUFF_SIZE + 1);
 	while ((rd = read(fd, buff, BUFF_SIZE)) && rd > 0)
 	{
 		buff[rd] = 0;
@@ -48,6 +63,9 @@ int						get_next_line(const int fd, char **line)
 		if (ft_strchr(buff, '\n'))
 			break;
 	}
+	if (rd == 0)
+		return (0);
 	parse_data(&(overflow), &line); 
+	increment_overflow(&(overflow));
 	return (1);
 }
