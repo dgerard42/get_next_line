@@ -6,7 +6,7 @@
 /*   By: dgerard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 18:19:28 by dgerard           #+#    #+#             */
-/*   Updated: 2017/05/09 12:26:51 by dgerard          ###   ########.fr       */
+/*   Updated: 2017/05/10 16:49:44 by dgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 #define GET_NEXT_LINE_H
 
 
-#define BUFF_SIZE 32
-#define MAX_FD 100
+#define BUFF_SIZE 10
+#define MAX_FD 10
 
 int				get_next_line(int fd, char **line);
 
