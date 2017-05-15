@@ -6,7 +6,7 @@
 /*   By: dgerard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 18:13:47 by dgerard           #+#    #+#             */
-/*   Updated: 2017/05/11 14:49:57 by dgerard          ###   ########.fr       */
+/*   Updated: 2017/05/14 18:15:11 by dgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,12 @@ void					parse_data(char **overflow, char ***line)
 
 	i = 0;
 	j = 0;
-	while ((*overflow)[i] != '\n')
-	{
-		(**line)[j] = (*overflow)[i];
-		j++;
+	while ((*overflow)[i] != '\n' && (*overflow)[i] != '\0')
 		i++;
-	}
+	(**line) = ft_memalloc(i + 1);
+	i = 0; 
+	while ((*overflow)[i] != '\n' && (*overflow)[i] != '\0')
+		(**line)[j++] = (*overflow)[i++];
 	(**line)[j] = 0;
 }
 
@@ -60,12 +60,12 @@ int						get_next_line(const int fd, char **line)
 	{
 		buff[rd] = 0;
 		overflow = ft_strjoin(overflow, buff);
-		if (ft_strchr(buff, '\n'))
+		if (ft_strchr(buff, '\n') || rd == 0)
 			break;
 	}
-	if (rd == 0)
+	if (rd == 0 && *overflow == 0)
 		return (0);
-	parse_data(&(overflow), &line); 
+	parse_data(&(overflow), &(line)); 
 	increment_overflow(&(overflow));
 	return (1);
 }
