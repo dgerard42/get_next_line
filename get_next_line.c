@@ -6,7 +6,7 @@
 /*   By: dgerard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 18:13:47 by dgerard           #+#    #+#             */
-/*   Updated: 2017/05/14 18:15:11 by dgerard          ###   ########.fr       */
+/*   Updated: 2017/05/16 22:14:37 by dgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void					increment_overflow(char **overflow)
 
 	i = 0;
 	tmp = (*overflow);
-	while (*tmp != '\n')
+	while (*tmp != '\n' && *tmp != '\0')
 		tmp++;
 	if (*tmp == '\n')
 		tmp++;
@@ -51,7 +51,9 @@ int						get_next_line(const int fd, char **line)
 	int				rd;
 	char			buff[BUFF_SIZE + 1];
 	static char		*overflow;
+	bool			newline;
 
+	newline = true;
 	if (fd < 0 || BUFF_SIZE < 1)
 		return (-1);
 	if (!(overflow))
@@ -60,12 +62,14 @@ int						get_next_line(const int fd, char **line)
 	{
 		buff[rd] = 0;
 		overflow = ft_strjoin(overflow, buff);
-		if (ft_strchr(buff, '\n') || rd == 0)
+		if (ft_strchr(buff, '\n'))
 			break;
 	}
+	if (rd < 0)
+		return (-1);
 	if (rd == 0 && *overflow == 0)
 		return (0);
-	parse_data(&(overflow), &(line)); 
+	parse_data(&(overflow), &(line));
 	increment_overflow(&(overflow));
 	return (1);
 }

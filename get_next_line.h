@@ -6,13 +6,14 @@
 /*   By: dgerard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 18:19:28 by dgerard           #+#    #+#             */
-/*   Updated: 2017/05/11 21:10:21 by dgerard          ###   ########.fr       */
+/*   Updated: 2017/05/15 17:13:36 by dgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 #define GET_NEXT_LINE_H
 
+#include <stdbool.h>
 
 #define BUFF_SIZE 3
 #define MAX_FD 10
