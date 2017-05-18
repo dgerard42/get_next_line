@@ -1,23 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   test_double_newline.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dgerard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2017/05/08 18:19:28 by dgerard           #+#    #+#             */
-/*   Updated: 2017/05/17 17:43:53 by dgerard          ###   ########.fr       */
+/*   Created: 2017/05/15 13:13:38 by dgerard           #+#    #+#             */
+/*   Updated: 2017/05/15 13:37:03 by dgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-#define GET_NEXT_LINE_H
+#include <stdio.h>
 
-#include <stdbool.h>
+int						double_newline(char *overflow)
+{
+	int		nulls;
+	char	*tmp;
 
-#define BUFF_SIZE 100
-#define MAX_FD 4096
+	tmp = overflow;
+	nulls = 0;
+	while (*tmp)
+		tmp++;
+	while (tmp[nulls] == '\0')
+		nulls++;
+	return (nulls);
+}
 
-int				get_next_line(int fd, char **line);
+int						main(void)
+{
+	int		res;
 
-#endif
+	res = double_newline("dubs\0");
+	printf("%d\n", res);
+}

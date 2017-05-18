@@ -6,7 +6,7 @@
 /*   By: dgerard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 18:13:47 by dgerard           #+#    #+#             */
-/*   Updated: 2017/05/16 22:14:37 by dgerard          ###   ########.fr       */
+/*   Updated: 2017/05/17 17:44:09 by dgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void					increment_overflow(char **overflow)
 		(*overflow)[i++] = '\0';
 }
 
-void					parse_data(char **overflow, char ***line)
+void					parse_data(char **overflow, char **line)
 {
 	int i;
 	int j;
@@ -39,37 +39,36 @@ void					parse_data(char **overflow, char ***line)
 	j = 0;
 	while ((*overflow)[i] != '\n' && (*overflow)[i] != '\0')
 		i++;
-	(**line) = ft_memalloc(i + 1);
+	(*line) = ft_memalloc(i + 1);
 	i = 0; 
 	while ((*overflow)[i] != '\n' && (*overflow)[i] != '\0')
-		(**line)[j++] = (*overflow)[i++];
-	(**line)[j] = 0;
+		(*line)[j++] = (*overflow)[i++];
+	(*line)[j] = '\0';
 }
 
 int						get_next_line(const int fd, char **line)
 {
 	int				rd;
 	char			buff[BUFF_SIZE + 1];
-	static char		*overflow;
-	bool			newline;
+	static char		*overflow[MAX_FD];
 
-	newline = true;
 	if (fd < 0 || BUFF_SIZE < 1)
 		return (-1);
-	if (!(overflow))
-		overflow =  ft_memalloc(BUFF_SIZE + 1);
+	get_array_position(fd);
+	if (!(overflow[fd]))
+		overflow[fd] =  ft_memalloc(BUFF_SIZE + 1);
 	while ((rd = read(fd, buff, BUFF_SIZE)) && rd > 0)
 	{
-		buff[rd] = 0;
-		overflow = ft_strjoin(overflow, buff);
+		buff[rd] = '\0';
+		overflow[fd] = ft_strjoini(overflow[fd], buff, 1);
 		if (ft_strchr(buff, '\n'))
 			break;
 	}
 	if (rd < 0)
 		return (-1);
-	if (rd == 0 && *overflow == 0)
+	if (rd == 0 && *overflow[fd] == 0)
 		return (0);
-	parse_data(&(overflow), &(line));
-	increment_overflow(&(overflow));
+	parse_data(&(overflow[fd]), line);
+	increment_overflow(&(overflow[fd]));
 	return (1);
 }
