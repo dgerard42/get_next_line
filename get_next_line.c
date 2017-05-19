@@ -6,17 +6,16 @@
 /*   By: dgerard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 18:13:47 by dgerard           #+#    #+#             */
-/*   Updated: 2017/05/17 17:44:09 by dgerard          ###   ########.fr       */
+/*   Updated: 2017/05/18 21:07:23 by dgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "get_next_line.h"
 
 void					increment_overflow(char **overflow)
 {
-	int i;
-	char *tmp;
+	int		i;
+	char	*tmp;
 
 	i = 0;
 	tmp = (*overflow);
@@ -40,7 +39,7 @@ void					parse_data(char **overflow, char **line)
 	while ((*overflow)[i] != '\n' && (*overflow)[i] != '\0')
 		i++;
 	(*line) = ft_memalloc(i + 1);
-	i = 0; 
+	i = 0;
 	while ((*overflow)[i] != '\n' && (*overflow)[i] != '\0')
 		(*line)[j++] = (*overflow)[i++];
 	(*line)[j] = '\0';
@@ -52,22 +51,24 @@ int						get_next_line(const int fd, char **line)
 	char			buff[BUFF_SIZE + 1];
 	static char		*overflow[MAX_FD];
 
-	if (fd < 0 || BUFF_SIZE < 1)
+	if (fd < 0 || BUFF_SIZE < 1 || !line)
 		return (-1);
-	get_array_position(fd);
 	if (!(overflow[fd]))
-		overflow[fd] =  ft_memalloc(BUFF_SIZE + 1);
+		overflow[fd] = ft_memalloc(BUFF_SIZE + 1);
 	while ((rd = read(fd, buff, BUFF_SIZE)) && rd > 0)
 	{
 		buff[rd] = '\0';
 		overflow[fd] = ft_strjoini(overflow[fd], buff, 1);
 		if (ft_strchr(buff, '\n'))
-			break;
+			break ;
 	}
 	if (rd < 0)
 		return (-1);
 	if (rd == 0 && *overflow[fd] == 0)
+	{
+		ft_memdel((void**)&(overflow[fd]));
 		return (0);
+	}
 	parse_data(&(overflow[fd]), line);
 	increment_overflow(&(overflow[fd]));
 	return (1);
