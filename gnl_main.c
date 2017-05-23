@@ -6,7 +6,7 @@
 /*   By: dgerard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/09 13:17:53 by dgerard           #+#    #+#             */
-/*   Updated: 2017/05/18 21:03:07 by dgerard          ###   ########.fr       */
+/*   Updated: 2017/05/23 11:49:18 by dgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stdio.h>
 #include <fcntl.h>
 
-/**/
+/*
 int			main(int ac,  char **av)
 {
 	int		fd;
@@ -48,15 +48,14 @@ int			main(int ac,  char **av)
 	close (fd);
 	close (fd2);
 }
-/**/
+*/
 
-/*
+/**/
 int				main(void)
 {
 	int		fd;
-	char	*line;
+	char	*line = NULL;
 
-	line = NULL;
 	fd = open("test_files/test01", O_RDONLY);
 	while (get_next_line(fd, &line) > 0)
 	{
@@ -64,4 +63,4 @@ int				main(void)
 		printf("********************\n");
 	}
 }
-*/
+/**/

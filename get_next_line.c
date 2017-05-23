@@ -6,7 +6,7 @@
 /*   By: dgerard <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/05/08 18:13:47 by dgerard           #+#    #+#             */
-/*   Updated: 2017/05/18 21:07:23 by dgerard          ###   ########.fr       */
+/*   Updated: 2017/05/23 11:23:29 by dgerard          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ int						get_next_line(const int fd, char **line)
 	char			buff[BUFF_SIZE + 1];
 	static char		*overflow[MAX_FD];
 
-	if (fd < 0 || BUFF_SIZE < 1 || !line)
+	if (fd < 0 || BUFF_SIZE < 1 || !line || fd > MAX_FD ||
+			(read(fd, buff, 0) < 0))
 		return (-1);
 	if (!(overflow[fd]))
 		overflow[fd] = ft_memalloc(BUFF_SIZE + 1);
@@ -62,8 +63,6 @@ int						get_next_line(const int fd, char **line)
 		if (ft_strchr(buff, '\n'))
 			break ;
 	}
-	if (rd < 0)
-		return (-1);
 	if (rd == 0 && *overflow[fd] == 0)
 	{
 		ft_memdel((void**)&(overflow[fd]));
